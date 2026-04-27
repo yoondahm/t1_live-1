@@ -32,6 +32,19 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+public:
+	bool IsMoving() const;
+
+protected:
+	UPROPERTY(EditAnywhere, Category= Sprinting)
+	float SprintingSpeed = 750.0f;
+
+	UPROPERTY(EditAnywhere, Category= Sprinting)
+	float NormalSpeed = 300.0f;
+
+	UPROPERTY(EditAnywhere, Category= Sprinting)
+	float SprintingStamina = 0.1f;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<USpringArmComponent> SpringArm;
@@ -39,11 +52,17 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UCameraComponent> Camera;
 
-#pragma region
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<class UT2AttributeComponent> AttributeComponent;
+
+#pragma region InputSystem
 
 public:
 	void Input_Move(const FInputActionValue& InputValue);
 	void Input_Look(const FInputActionValue& InputValue);
+
+	void Sprinting();
+	void StopSprinting();
 
 protected:
 	UPROPERTY(EditAnywhere, Category=Input)
@@ -57,5 +76,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category=Input)
 	TObjectPtr<UInputAction> JumpAction;
+
+	UPROPERTY(EditAnywhere, Category=Input)
+	TObjectPtr<UInputAction> SprintAction;
 #pragma endregion
 };
