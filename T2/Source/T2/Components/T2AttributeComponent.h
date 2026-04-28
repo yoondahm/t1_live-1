@@ -3,9 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "T2Define.h"
 #include "Components/ActorComponent.h"
 #include "T2AttributeComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnAttributeChanged, ET2AttributeType, float)
+// DECLARE_DYNAMIC_MULTICAST_DELEGATE_
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class T2_API UT2AttributeComponent : public UActorComponent
@@ -36,6 +39,12 @@ public:
 	void ToggleStaminaRegen(bool bEnabled, float startDelay = 2.0f);
 	
 	void RegenStaminaHandler();
+	
+public:
+	void BroadcastAttributeChanged(ET2AttributeType InAttributeType) const;
+	
+public:
+	FOnAttributeChanged OnAttributeChanged;
 
 protected:
 	UPROPERTY(EditAnywhere, Category=Stamina)
